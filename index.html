@@ -24,12 +24,17 @@
             border-radius: 15px;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
             width: 90%;
-            max-width: 600px;
+            max-width: 300px;
+            min-height: 300px;
             position: relative;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .gif-container {
-            margin: 20px 0;
+            margin: 10px 0;
         }
 
         .question {
@@ -41,12 +46,12 @@
         .buttons {
             display: flex;
             justify-content: space-between;
-            width: 100%;
+            width: calc(100% - 40px);
             padding: 0 20px;
             box-sizing: border-box;
-            margin-bottom: 20px;
+            margin: 20px auto;
             position: relative;
-            height: 50px;
+            min-height: 50px;
         }
 
         .btn {
@@ -67,14 +72,14 @@
             background-color: #4CAF50;
             color: white;
             position: absolute;
-            left: 20px;
+            left: 5px;
         }
 
         #noBtn {
             background-color: #ff4d4d;
             color: white;
             position: absolute;
-            right: 20px;
+            right: 5px;
         }
 
         .notification {
@@ -113,6 +118,17 @@
         }
 
         @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                min-height: 250px;
+                padding: 15px;
+            }
+            
+            .buttons {
+                width: calc(100% - 30px);
+                padding: 0 15px;
+            }
+
             .btn {
                 width: 100px;
                 padding: 10px 20px;
@@ -125,8 +141,7 @@
     <div class="container">
         <div class="gif-container">
             <!-- Ganti URL ini dengan URL GIF kucing Anda -->
-            <img src="gif.gif" alt="Cute Cat GIF">
-        </div>
+            <img src="gif.gif" alt="Cute Cat GIF" width="150" height="150">        </div>
         <div class="question">Would you be my girlfriend? 🥺</div>
         <div class="buttons">
             <button id="yesBtn" class="btn">Yes</button>
@@ -164,12 +179,18 @@
             const containerRect = container.getBoundingClientRect();
             const buttonRect = noBtn.getBoundingClientRect();
             
-            const maxX = containerRect.width - buttonRect.width - 40;
-            const maxY = containerRect.height - buttonRect.height - 40;
+            // Define movement constraints
+            const maxMovement = 150; // Maximum pixels to move in any direction
+            const padding = 20; // Minimum padding from edges
             
-            const newX = Math.random() * maxX;
-            const newY = Math.random() * maxY;
+            // Calculate random position within constraints
+            const maxX = Math.min(containerRect.width - buttonRect.width - padding, maxMovement);
+            const maxY = Math.min(containerRect.height - buttonRect.height - padding, maxMovement);
             
+            const newX = Math.max(padding, Math.min(Math.random() * maxX, maxX));
+            const newY = Math.max(padding, Math.min(Math.random() * maxY, maxY));
+            
+            // Apply new position
             noBtn.style.position = 'absolute';
             noBtn.style.left = `${newX}px`;
             noBtn.style.top = `${newY}px`;
@@ -209,7 +230,6 @@
             noNotification.style.display = 'none';
         }
 
-        // New function to handle the OK click after Yes
         function handleYesOkClick() {
             window.location.href = 'https://muhirfanzhaen.github.io/PesanPesan/';
         }
